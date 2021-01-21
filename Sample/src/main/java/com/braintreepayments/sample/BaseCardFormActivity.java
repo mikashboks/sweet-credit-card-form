@@ -32,16 +32,16 @@ public class BaseCardFormActivity extends AppCompatActivity implements OnCardFor
         mSupportedCardTypesView.setSupportedCardTypes(SUPPORTED_CARD_TYPES);
 
         mCardForm = findViewById(R.id.card_form);
-        mCardForm.cardRequired(true)
+        mCardForm.cardRequired(true, "Card Number", "Your Card Number")
                 .maskCardNumber(true)
                 .maskCvv(true)
-                .expirationRequired(true)
-                .cvvRequired(true)
-                .postalCodeRequired(true)
-                .mobileNumberRequired(true)
+                .expirationRequired(true, "Expiration Date", "Date")
+                .cvvRequired(true, "Security Code", "Your Card CVV code, usually found at the back of your card")
+                .postalCodeRequired(true, "Billing Address (Zip/Post Code)", "Your billing address")
+                .mobileNumberRequired(true, "9999999999", "91")
                 .saveCardCheckBoxChecked(true)
                 .saveCardCheckBoxVisible(true)
-                .cardholderName(CardForm.FIELD_REQUIRED)
+                .cardholderName(CardForm.FIELD_REQUIRED, "Card Holder Name", "Your name as it appears on your card")
                 .mobileNumberExplanation("Make sure SMS is enabled for this mobile number")
                 .actionLabel(getString(R.string.purchase))
                 .setup(this);
