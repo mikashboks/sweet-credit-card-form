@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="bt_margin">8dp</dimen>
-    <dimen name="bt_edit_text_icon_padding">24dp</dimen>
+    <dimen name="bt_edit_text_icon_padding">16dp</dimen>
     <dimen name="bt_no_edit_text_icon_padding">49dp</dimen>
     <dimen name="bt_mobile_number_explanation_padding">53dp</dimen>
     <dimen name="bt_input_text_size">16sp</dimen>
@@ -15,4 +15,13 @@
     <dimen name="bt_expiration_date_item_selected_background_radius">2dp</dimen>
 
     <dimen name="bt_save_card_checkbox_left_margin">-7dp</dimen>
+    <dimen name="bt_corner_radius">4dp</dimen>
+
+    <!-- Dimen values for text size -->
+    <dimen name="bt_text_headline">24sp</dimen>
+    <dimen name="bt_text_medium">16sp</dimen>
+    <dimen name="bt_text_small">14sp</dimen>
+    <dimen name="bt_text_tiny">12sp</dimen>
+    <dimen name="bt_text_size_9sp">9sp</dimen>
+    <dimen name="bt_text_size_10sp">10sp</dimen>
 </resources>

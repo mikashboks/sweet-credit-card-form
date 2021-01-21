@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="bt_card_form_icon">
-        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">top|center_horizontal</item>
-        <item name="android:paddingTop">50dp</item>
-        <item name="android:paddingBottom">@dimen/bt_margin</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">12dp</item>
     </style>
 
     <style name="bt_field_container">
@@ -13,11 +12,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:baselineAligned">false</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:layout_marginTop">12dp</item>
     </style>
 
     <style name="bt_base_textview">
         <item name="android:textSize">@dimen/bt_input_text_size</item>
-        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="bt_text_input_layout">
@@ -29,10 +29,10 @@
 
     <style name="bt_card_form_field" parent="bt_base_textview">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">60dp</item>
-        <item name="android:paddingTop">@dimen/bt_margin</item>
+        <item name="android:layout_height">48dp</item>
         <item name="android:textColorHint">@color/bt_light_gray</item>
-        <item name="android:textCursorDrawable" tools:ignore="NewApi">@null</item>
+        <item name="android:background">@drawable/bt_rounded_edit_text</item>
+        <item name="android:textColor">@color/bt_disable_edit_text</item>
     </style>
 
     <style name="bt_expiration_date_dialog_sheet" parent="@android:style/Theme.Dialog">
@@ -94,4 +94,25 @@
         <item name="android:fadeScrollbars">false</item>
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
     </style>
+
+    <style name="bt_TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/bt_grey_border</item>
+        <item name="boxCornerRadiusTopStart">@dimen/bt_corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/bt_corner_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/bt_corner_radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/bt_corner_radius</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="bt_LabelStyle">
+        <item name="android:textSize">@dimen/bt_text_small</item>
+    </style>
+
+    <style name="bt_LabelStyle.Input">
+        <item name="android:textColor">@color/bt_text_color</item>
+        <item name="android:layout_marginBottom">6dp</item>
+    </style>
+
 </resources>
