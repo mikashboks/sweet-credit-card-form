@@ -82,6 +82,14 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     private TextView mMobileNumberExplanation;
     private InitialValueCheckBox mSaveCardCheckBox;
 
+    private TextView mtvHintCardHolder;
+    private TextView mtvHintCardNumber;
+    private TextView mtvHintExpirationDate;
+    private TextView mtvHintCVV;
+    private TextView mtvHintPostalCode;
+    private TextView mtvHintCountryCode;
+    private TextView mtvHintMobileNumber;
+
     private boolean mCardNumberRequired;
     private boolean mExpirationRequired;
     private boolean mCvvRequired;
@@ -139,6 +147,14 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mMobileNumber = findViewById(R.id.bt_card_form_mobile_number);
         mMobileNumberExplanation = findViewById(R.id.bt_card_form_mobile_number_explanation);
         mSaveCardCheckBox = findViewById(R.id.bt_card_form_save_card_checkbox);
+
+        mtvHintCardHolder = findViewById(R.id.tv_hint_card_holder);
+        mtvHintCardNumber = findViewById(R.id.tv_hint_card_number);
+        mtvHintExpirationDate = findViewById(R.id.tv_hint_expiration_date);
+        mtvHintCVV = findViewById(R.id.tv_hint_cvv);
+        mtvHintPostalCode = findViewById(R.id.tv_hint_postal_code);
+        mtvHintCountryCode = findViewById(R.id.tv_hint_country_code);
+        mtvHintMobileNumber = findViewById(R.id.tv_hint_mobile_number);
 
         mVisibleEditTexts = new ArrayList<>();
 
@@ -283,16 +299,29 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
 
         setViewVisibility(mCardholderNameIcon,  cardHolderNameVisible);
         setFieldVisibility(mCardholderName, cardHolderNameVisible);
+        setViewVisibility(mtvHintCardHolder, cardHolderNameVisible);
+
         setViewVisibility(mCardNumberIcon, mCardNumberRequired);
         setFieldVisibility(mCardNumber, mCardNumberRequired);
+        setViewVisibility(mtvHintCardNumber, mCardNumberRequired);
+
         setFieldVisibility(mExpiration, mExpirationRequired);
+        setViewVisibility(mtvHintExpirationDate, mExpirationRequired);
+
         setFieldVisibility(mCvv, mCvvRequired);
+        setViewVisibility(mtvHintCVV, mCvvRequired);
+
         setViewVisibility(mPostalCodeIcon, mPostalCodeRequired);
         setFieldVisibility(mPostalCode, mPostalCodeRequired);
+        setViewVisibility(mtvHintPostalCode, mPostalCodeRequired);
+
         setViewVisibility(mMobileNumberIcon, mMobileNumberRequired);
         setFieldVisibility(mCountryCode, mMobileNumberRequired);
         setFieldVisibility(mMobileNumber, mMobileNumberRequired);
         setViewVisibility(mMobileNumberExplanation, mMobileNumberRequired);
+        setViewVisibility(mtvHintMobileNumber, mMobileNumberRequired);
+        setViewVisibility(mtvHintCountryCode, mMobileNumberRequired);
+
         setViewVisibility(mSaveCardCheckBox, mSaveCardCheckBoxVisible);
 
         TextInputEditText editText;
