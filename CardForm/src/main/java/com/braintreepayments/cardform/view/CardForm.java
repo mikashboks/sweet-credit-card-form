@@ -172,8 +172,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      * @param required {@code true} to show and require a credit card number, {@code false} otherwise. Defaults to {@code false}.
      * @return {@link CardForm} for method chaining
      */
-    public CardForm cardRequired(boolean required) {
+    public CardForm cardRequired(boolean required, String title, String desc) {
         mCardNumberRequired = required;
+        if (title != null) mtvHintCardNumber.setText(title);
+        if (desc != null) mCardNumber.setHint(desc);
         return this;
     }
 
@@ -181,8 +183,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      * @param required {@code true} to show and require an expiration date, {@code false} otherwise. Defaults to {@code false}.
      * @return {@link CardForm} for method chaining
      */
-    public CardForm expirationRequired(boolean required) {
+    public CardForm expirationRequired(boolean required, String title, String desc) {
         mExpirationRequired = required;
+        if (title != null) mtvHintExpirationDate.setText(title);
+        if (desc != null) mExpiration.setHint(desc);
         return this;
     }
 
@@ -190,8 +194,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      * @param required {@code true} to show and require a cvv, {@code false} otherwise. Defaults to {@code false}.
      * @return {@link CardForm} for method chaining
      */
-    public CardForm cvvRequired(boolean required) {
+    public CardForm cvvRequired(boolean required, String title, String desc) {
         mCvvRequired = required;
+        if (title != null) mtvHintCVV.setText(title);
+        if (desc != null) mCvv.setHint(desc);
         return this;
     }
 
@@ -203,8 +209,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      *
      * @return {@link CardForm} for method chaining
      */
-    public CardForm cardholderName(@FieldStatus int cardHolderNameStatus) {
+    public CardForm cardholderName(@FieldStatus int cardHolderNameStatus, String title, String desc) {
         mCardholderNameStatus = cardHolderNameStatus;
+        if (title != null) mtvHintCardHolder.setText(title);
+        if (desc != null) mCardholderName.setHint(desc);
         return this;
     }
 
@@ -212,8 +220,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      * @param required {@code true} to show and require a postal code, {@code false} otherwise. Defaults to {@code false}.
      * @return {@link CardForm} for method chaining
      */
-    public CardForm postalCodeRequired(boolean required) {
+    public CardForm postalCodeRequired(boolean required, String title, String desc) {
         mPostalCodeRequired = required;
+        if (title != null) mtvHintPostalCode.setText(title);
+        if (desc != null) mPostalCode.setHint(desc);
         return this;
     }
 
@@ -221,8 +231,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      * @param required {@code true} to show and require a mobile number, {@code false} otherwise. Defaults to {@code false}.
      * @return {@link CardForm} for method chaining
      */
-    public CardForm mobileNumberRequired(boolean required) {
+    public CardForm mobileNumberRequired(boolean required, String descMobile, String descCountryCode) {
         mMobileNumberRequired = required;
+        if (descMobile != null) mMobileNumber.setHint(descMobile);
+        if (descCountryCode != null) mCountryCode.setHint(descCountryCode);
         return this;
     }
 
@@ -280,8 +292,8 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
 
 
     /**
-     * Sets up the card form for display to the user using the values provided in {@link CardForm#cardRequired(boolean)},
-     * {@link CardForm#expirationRequired(boolean)}, ect. If {@link CardForm#setup(AppCompatActivity)} is not called,
+     * Sets up the card form for display to the user using the values provided in {@link CardForm#cardRequired(boolean, String, String)},
+     * {@link CardForm#expirationRequired(boolean, String, String)}, ect. If {@link CardForm#setup(AppCompatActivity)} is not called,
      * the form will not be visible.
      *
      * @param activity Used to set {@link android.view.WindowManager.LayoutParams#FLAG_SECURE} to prevent screenshots
