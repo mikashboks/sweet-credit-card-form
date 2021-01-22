@@ -81,6 +81,8 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     private MobileNumberEditText mMobileNumber;
     private TextView mMobileNumberExplanation;
     private InitialValueCheckBox mSaveCardCheckBox;
+    private ExtendedAddressEditText mExtendedBillingAddress;
+    private ImageView mBillingAddressIcon;
 
     private TextView mtvHintCardHolder;
     private TextView mtvHintCardNumber;
@@ -89,6 +91,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     private TextView mtvHintPostalCode;
     private TextView mtvHintCountryCode;
     private TextView mtvHintMobileNumber;
+    private TextView mtvHintBillingAddress;
 
     private boolean mCardNumberRequired;
     private boolean mExpirationRequired;
@@ -96,6 +99,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     private int mCardholderNameStatus = FIELD_DISABLED;
     private boolean mPostalCodeRequired;
     private boolean mMobileNumberRequired;
+    private boolean mBillingAddressRequired;
     private String mActionLabel;
     private boolean mSaveCardCheckBoxVisible;
     private boolean mSaveCardCheckBoxChecked;
@@ -147,6 +151,8 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mMobileNumber = findViewById(R.id.bt_card_form_mobile_number);
         mMobileNumberExplanation = findViewById(R.id.bt_card_form_mobile_number_explanation);
         mSaveCardCheckBox = findViewById(R.id.bt_card_form_save_card_checkbox);
+        mExtendedBillingAddress = findViewById(R.id.bt_card_form_billing_address);
+        mBillingAddressIcon = findViewById(R.id.bt_card_form_billing_address_icon);
 
         mtvHintCardHolder = findViewById(R.id.tv_hint_card_holder);
         mtvHintCardNumber = findViewById(R.id.tv_hint_card_number);
@@ -155,6 +161,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mtvHintPostalCode = findViewById(R.id.tv_hint_postal_code);
         mtvHintCountryCode = findViewById(R.id.tv_hint_country_code);
         mtvHintMobileNumber = findViewById(R.id.tv_hint_mobile_number);
+        mtvHintBillingAddress = findViewById(R.id.tv_hint_billing_address);
 
         mVisibleEditTexts = new ArrayList<>();
 
@@ -166,6 +173,17 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         setListeners(mMobileNumber);
 
         mCardNumber.setOnCardTypeChangedListener(this);
+    }
+
+    /**
+     * @param required {@code true} to show and require billing address fields, {@code false} otherwise. Defaults to {@code false}.
+     * @return {@link CardForm} for method chaining
+     */
+    public CardForm billingAddressRequired(boolean required, String title, String desc) {
+        mBillingAddressRequired = required;
+        if (title != null) mtvHintBillingAddress.setText(title);
+        if (desc != null) mExtendedBillingAddress.setHint(desc);
+        return this;
     }
 
     /**
@@ -307,6 +325,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mCardholderNameIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_cardholder_name_dark: R.drawable.bt_ic_cardholder_name);
         mCardNumberIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_card_dark : R.drawable.bt_ic_card);
         mPostalCodeIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code);
+        mBillingAddressIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code);
         mMobileNumberIcon.setImageResource(isDarkBackground? R.drawable.bt_ic_mobile_number_dark : R.drawable.bt_ic_mobile_number);
 
         setViewVisibility(mCardholderNameIcon,  cardHolderNameVisible);
@@ -326,6 +345,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         setViewVisibility(mPostalCodeIcon, mPostalCodeRequired);
         setFieldVisibility(mPostalCode, mPostalCodeRequired);
         setViewVisibility(mtvHintPostalCode, mPostalCodeRequired);
+
+        setViewVisibility(mBillingAddressIcon, mBillingAddressRequired);
+        setFieldVisibility(mExtendedBillingAddress, mBillingAddressRequired);
+        setViewVisibility(mtvHintBillingAddress, mBillingAddressRequired);
 
         setViewVisibility(mMobileNumberIcon, mMobileNumberRequired);
         setFieldVisibility(mCountryCode, mMobileNumberRequired);
@@ -489,6 +512,9 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         if (mMobileNumberRequired) {
             valid = valid && mCountryCode.isValid() && mMobileNumber.isValid();
         }
+        if (mBillingAddressRequired) {
+            valid = valid && mExtendedBillingAddress.isValid();
+        }
         return valid;
     }
 
@@ -515,6 +541,16 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
             mCountryCode.validate();
             mMobileNumber.validate();
         }
+        if (mBillingAddressRequired) {
+            mExtendedBillingAddress.validate();
+        }
+    }
+
+    /**
+     * @return {@link ExtendedAddressEditText} view in the card form
+     */
+    public ExtendedAddressEditText getExtendedBillingAddressEditText() {
+        return mExtendedBillingAddress;
     }
 
     /**
@@ -731,6 +767,13 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      */
     public String getMobileNumber() {
         return mMobileNumber.getMobileNumber();
+    }
+
+    /**
+     * @return the text in the extended address field
+     */
+    public String getExtendedBillingAddress() {
+        return mExtendedBillingAddress.getText().toString();
     }
 
     /**
