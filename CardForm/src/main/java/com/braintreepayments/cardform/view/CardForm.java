@@ -33,6 +33,7 @@ import com.braintreepayments.cardform.R;
 import com.braintreepayments.cardform.utils.CardType;
 import com.braintreepayments.cardform.utils.ViewUtils;
 import com.braintreepayments.cardform.view.CardEditText.OnCardTypeChangedListener;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -153,6 +154,15 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mSaveCardCheckBox = findViewById(R.id.bt_card_form_save_card_checkbox);
         mExtendedBillingAddress = findViewById(R.id.bt_card_form_billing_address);
         mBillingAddressIcon = findViewById(R.id.bt_card_form_billing_address_icon);
+
+        ((TextInputLayout) findViewById(R.id.bt_til_card_form_cardholder_name)).setErrorIconDrawable(0);
+        ((TextInputLayout) findViewById(R.id.bt_til_card_form_card_number)).setErrorIconDrawable(0);
+        ((TextInputLayout) findViewById(R.id.bt_til_card_form_expiration)).setErrorIconDrawable(0);
+        ((TextInputLayout) findViewById(R.id.bt_til_card_form_cvv)).setErrorIconDrawable(0);
+        ((TextInputLayout) findViewById(R.id.bt_til_card_form_postal_code)).setErrorIconDrawable(0);
+        ((TextInputLayout) findViewById(R.id.bt_til_card_form_billing_address)).setErrorIconDrawable(0);
+        ((TextInputLayout) findViewById(R.id.bt_til_card_form_country_code)).setErrorIconDrawable(0);
+        ((TextInputLayout) findViewById(R.id.bt_til_card_form_mobile_number)).setErrorIconDrawable(0);
 
         mtvHintCardHolder = findViewById(R.id.tv_hint_card_holder);
         mtvHintCardNumber = findViewById(R.id.tv_hint_card_number);
