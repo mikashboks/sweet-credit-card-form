@@ -38,6 +38,7 @@ public class BaseCardFormActivity extends AppCompatActivity implements OnCardFor
                 .expirationRequired(true, "Expiration Date", "Date")
                 .cvvRequired(true, "Security Code", "Your Card CVV code, usually found at the back of your card")
                 .postalCodeRequired(true, "Billing Address (Zip/Post Code)", "Your billing address")
+                .billingAddressRequired(true, "Billing Address (Street)", "Your billing address")
                 .mobileNumberRequired(true, "9999999999", "91")
                 .saveCardCheckBoxChecked(true)
                 .saveCardCheckBoxVisible(true)
