@@ -90,6 +90,11 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     private ImageView mCountryPickerIcon;
     private TextView mtvHintCountry;
 
+    private PhoneNumberEditText mPhoneNumber;
+    private ImageView mPhoneNumberIcon;
+    private TextView mtvHintPhoneNumber;
+    private CountryCodePicker phoneCountryCodePicker;
+
     private TextView mtvHintCardHolder;
     private TextView mtvHintCardNumber;
     private TextView mtvHintExpirationDate;
@@ -107,6 +112,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     private boolean mMobileNumberRequired;
     private boolean mBillingAddressRequired;
     private boolean mCountryRequired;
+    private boolean mPhoneNumberRequired;
     private String mActionLabel;
     private boolean mSaveCardCheckBoxVisible;
     private boolean mSaveCardCheckBoxChecked;
@@ -164,6 +170,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         countryCodePicker = findViewById(R.id.ccpCountry);
         mCountryPickerIcon = findViewById(R.id.bt_card_form_country_icon);
 
+        mPhoneNumber = findViewById(R.id.bt_card_form_phone_number);
+        phoneCountryCodePicker = findViewById(R.id.ccPicker);
+        mPhoneNumberIcon = findViewById(R.id.bt_card_form_phone_icon);
+
         ((TextInputLayout) findViewById(R.id.bt_til_card_form_cardholder_name)).setErrorIconDrawable(0);
         ((TextInputLayout) findViewById(R.id.bt_til_card_form_card_number)).setErrorIconDrawable(0);
         ((TextInputLayout) findViewById(R.id.bt_til_card_form_expiration)).setErrorIconDrawable(0);
@@ -172,6 +182,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         ((TextInputLayout) findViewById(R.id.bt_til_card_form_billing_address)).setErrorIconDrawable(0);
         ((TextInputLayout) findViewById(R.id.bt_til_card_form_country_code)).setErrorIconDrawable(0);
         ((TextInputLayout) findViewById(R.id.bt_til_card_form_mobile_number)).setErrorIconDrawable(0);
+        ((TextInputLayout) findViewById(R.id.bt_til_card_form_phone_number)).setErrorIconDrawable(0);
 
         mtvHintCardHolder = findViewById(R.id.tv_hint_card_holder);
         mtvHintCardNumber = findViewById(R.id.tv_hint_card_number);
@@ -182,6 +193,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mtvHintMobileNumber = findViewById(R.id.tv_hint_mobile_number);
         mtvHintBillingAddress = findViewById(R.id.tv_hint_billing_address);
         mtvHintCountry = findViewById(R.id.tv_hint_country);
+        mtvHintPhoneNumber = findViewById(R.id.tv_hint_phone_number);
 
         mVisibleEditTexts = new ArrayList<>();
 
@@ -202,6 +214,16 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     public CardForm countryRequired(boolean required, String title) {
         mCountryRequired = required;
         if (title != null) mtvHintCountry.setText(title);
+        return this;
+    }
+
+    /**
+     * @param required {@code true} to show and require phone number fields, {@code false} otherwise. Defaults to {@code false}.
+     * @return {@link CardForm} for method chaining
+     */
+    public CardForm phoneNumberRequired(boolean required, String title) {
+        mPhoneNumberRequired = required;
+        if (title != null) mtvHintPhoneNumber.setText(title);
         return this;
     }
 
@@ -358,6 +380,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mBillingAddressIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code);
         mMobileNumberIcon.setImageResource(isDarkBackground? R.drawable.bt_ic_mobile_number_dark : R.drawable.bt_ic_mobile_number);
         mCountryPickerIcon.setImageResource(isDarkBackground? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code_dark);
+        mPhoneNumberIcon.setImageResource(isDarkBackground? R.drawable.bt_ic_mobile_number_dark : R.drawable.bt_ic_mobile_number);
 
         setViewVisibility(mCardholderNameIcon,  cardHolderNameVisible);
         setFieldVisibility(mCardholderName, cardHolderNameVisible);
@@ -384,6 +407,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         setViewVisibility(mCountryPickerIcon, mCountryRequired);
         setViewVisibility(countryCodePicker, mCountryRequired);
         setViewVisibility(mtvHintCountry, mCountryRequired);
+
+        setViewVisibility(mPhoneNumberIcon, mPhoneNumberRequired);
+        setViewVisibility(mPhoneNumber, mPhoneNumberRequired);
+        setViewVisibility(mtvHintPhoneNumber, mPhoneNumberRequired);
 
         setViewVisibility(mMobileNumberIcon, mMobileNumberRequired);
         setFieldVisibility(mCountryCode, mMobileNumberRequired);
@@ -522,6 +549,8 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mCvv.setEnabled(enabled);
         mPostalCode.setEnabled(enabled);
         mMobileNumber.setEnabled(enabled);
+        countryCodePicker.setEnabled(enabled);
+        mPhoneNumber.setEnabled(enabled);
     }
 
     /**
@@ -547,6 +576,9 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         if (mMobileNumberRequired) {
             valid = valid && mCountryCode.isValid() && mMobileNumber.isValid();
         }
+        if (mPhoneNumberRequired) {
+            valid = valid &&  mPhoneNumber.isPhoneNumberValid(phoneCountryCodePicker.getSelectedCountryCodeWithPlus());
+        }
         if (mBillingAddressRequired) {
             valid = valid && mExtendedBillingAddress.isValid();
         }
@@ -571,6 +603,9 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         }
         if (mPostalCodeRequired) {
             mPostalCode.validate();
+        }
+        if (mPhoneNumberRequired) {
+            mPhoneNumber.validate();
         }
         if (mMobileNumberRequired) {
             mCountryCode.validate();
@@ -635,6 +670,13 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      */
     public MobileNumberEditText getMobileNumberEditText() {
         return mMobileNumber;
+    }
+
+    /**
+     * @return {@link MobileNumberEditText} view in the card form
+     */
+    public PhoneNumberEditText getPhoneNumberEditText() {
+        return mPhoneNumber;
     }
 
     /**
@@ -809,6 +851,13 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      */
     public String getMobileNumber() {
         return mMobileNumber.getMobileNumber();
+    }
+
+    /**
+     * @return Phone Number field
+     */
+    public String getPhoneNumberWithPlusNumber() {
+        return phoneCountryCodePicker.getSelectedCountryCodeWithPlus() + mPhoneNumber.getPhoneNumber();
     }
 
     /**

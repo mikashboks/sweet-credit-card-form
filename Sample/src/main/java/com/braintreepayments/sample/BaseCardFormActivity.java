@@ -41,6 +41,7 @@ public class BaseCardFormActivity extends AppCompatActivity implements OnCardFor
                 .billingAddressRequired(true, "Billing Address (Street)", "Your billing address")
                 .mobileNumberRequired(true, "9999999999", "91")
                 .countryRequired(true, "Country")
+                .phoneNumberRequired(true, "Phone Number")
                 .saveCardCheckBoxChecked(true)
                 .saveCardCheckBoxVisible(true)
                 .cardholderName(CardForm.FIELD_REQUIRED, "Card Holder Name", "Your name as it appears on your card")
