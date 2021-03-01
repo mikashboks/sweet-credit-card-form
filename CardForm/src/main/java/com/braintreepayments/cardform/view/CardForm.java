@@ -76,7 +76,6 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     private CvvEditText mCvv;
     private CardholderNameEditText mCardholderName;
     private ImageView mCardholderNameIcon;
-    private ImageView mPostalCodeIcon;
     private PostalCodeEditText mPostalCode;
     private ImageView mMobileNumberIcon;
     private CountryCodeEditText mCountryCode;
@@ -85,6 +84,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     private InitialValueCheckBox mSaveCardCheckBox;
     private ExtendedAddressEditText mExtendedBillingAddress;
     private ImageView mBillingAddressIcon;
+    private ImageView mCountryBillingIcon;
 
     private CountryCodePicker countryCodePicker;
     private ImageView mCountryPickerIcon;
@@ -157,7 +157,6 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mCvv = findViewById(R.id.bt_card_form_cvv);
         mCardholderName = findViewById(R.id.bt_card_form_cardholder_name);
         mCardholderNameIcon = findViewById(R.id.bt_card_form_cardholder_name_icon);
-        mPostalCodeIcon = findViewById(R.id.bt_card_form_postal_code_icon);
         mPostalCode = findViewById(R.id.bt_card_form_postal_code);
         mMobileNumberIcon = findViewById(R.id.bt_card_form_mobile_number_icon);
         mCountryCode = findViewById(R.id.bt_card_form_country_code);
@@ -168,7 +167,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mBillingAddressIcon = findViewById(R.id.bt_card_form_billing_address_icon);
 
         countryCodePicker = findViewById(R.id.ccpCountry);
-        mCountryPickerIcon = findViewById(R.id.bt_card_form_country_icon);
+        mCountryBillingIcon = findViewById(R.id.bt_card_form_country_billing_icon);
 
         mPhoneNumber = findViewById(R.id.bt_card_form_phone_number);
         phoneCountryCodePicker = findViewById(R.id.ccPicker);
@@ -221,9 +220,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      * @param required {@code true} to show and require phone number fields, {@code false} otherwise. Defaults to {@code false}.
      * @return {@link CardForm} for method chaining
      */
-    public CardForm phoneNumberRequired(boolean required, String title) {
+    public CardForm phoneNumberRequired(boolean required, String title, String desc) {
         mPhoneNumberRequired = required;
         if (title != null) mtvHintPhoneNumber.setText(title);
+        if (desc != null) mPhoneNumber.setHint(desc);
         return this;
     }
 
@@ -376,10 +376,9 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         boolean isDarkBackground = ViewUtils.isDarkBackground(activity);
         mCardholderNameIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_cardholder_name_dark: R.drawable.bt_ic_cardholder_name);
         mCardNumberIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_card_dark : R.drawable.bt_ic_card);
-        mPostalCodeIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code);
+        mCountryBillingIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code);
         mBillingAddressIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code);
         mMobileNumberIcon.setImageResource(isDarkBackground? R.drawable.bt_ic_mobile_number_dark : R.drawable.bt_ic_mobile_number);
-        mCountryPickerIcon.setImageResource(isDarkBackground? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code_dark);
         mPhoneNumberIcon.setImageResource(isDarkBackground? R.drawable.bt_ic_mobile_number_dark : R.drawable.bt_ic_mobile_number);
 
         setViewVisibility(mCardholderNameIcon,  cardHolderNameVisible);
@@ -396,7 +395,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         setFieldVisibility(mCvv, mCvvRequired);
         setViewVisibility(mtvHintCVV, mCvvRequired);
 
-        setViewVisibility(mPostalCodeIcon, mPostalCodeRequired);
+        setViewVisibility(mCountryBillingIcon, mPostalCodeRequired || mCountryRequired);
         setFieldVisibility(mPostalCode, mPostalCodeRequired);
         setViewVisibility(mtvHintPostalCode, mPostalCodeRequired);
 
@@ -404,7 +403,6 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         setFieldVisibility(mExtendedBillingAddress, mBillingAddressRequired);
         setViewVisibility(mtvHintBillingAddress, mBillingAddressRequired);
 
-        setViewVisibility(mCountryPickerIcon, mCountryRequired);
         setViewVisibility(countryCodePicker, mCountryRequired);
         setViewVisibility(mtvHintCountry, mCountryRequired);
 
@@ -463,9 +461,9 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      *
      * @param res The drawable resource for the postal code icon.
      */
-    public void setPostalCodeIcon(@DrawableRes int res) {
+   /* public void setPostalCodeIcon(@DrawableRes int res) {
         mPostalCodeIcon.setImageResource(res);
-    }
+    }*/
 
     /**
      * Sets the icon to the left of the mobile number entry field, overriding the default icon.
@@ -770,6 +768,20 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         if (mMobileNumberRequired) {
             mMobileNumber.setError(errorMessage);
             if (!mCardNumber.isFocused() && !mExpiration.isFocused() && !mCvv.isFocused() && !mCardholderName.isFocused() && !mPostalCode.isFocused() && !mCountryCode.isFocused()) {
+                requestEditTextFocus(mMobileNumber);
+            }
+        }
+    }
+
+    /**
+     * Set visual indicator on mobile number field to indicate error
+     *
+     * @param errorMessage the error message to display
+     */
+    public void setPhoneNumberError(String errorMessage) {
+        if (mPhoneNumberRequired) {
+            mPhoneNumber.setError(errorMessage);
+            if (!mCardNumber.isFocused() && !mExpiration.isFocused() && !mCvv.isFocused() && !mCardholderName.isFocused() && !mPostalCode.isFocused() && !phoneCountryCodePicker.isFocused()) {
                 requestEditTextFocus(mMobileNumber);
             }
         }
