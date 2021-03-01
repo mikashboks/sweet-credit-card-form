@@ -8,6 +8,7 @@
     <string name="bt_form_hint_country_code">Country Code</string>
     <string name="bt_form_hint_mobile_number">Mobile Number</string>
     <string name="bt_form_hint_country">Country</string>
+    <string name="bt_form_hint_phone_number">Phone Number</string>
 
     <string name="bt_cvv">CVV</string>
     <string name="bt_cvc">CVC</string>
@@ -27,6 +28,7 @@
     <string name="bt_postal_code_required">Postal code is required</string>
     <string name="bt_country_code_required">Country code is required</string>
     <string name="bt_mobile_number_required">Mobile number is required</string>
+    <string name="bt_enter_valid_phone_number">Please enter a valid phone number</string>
 
     <string name="bt_save_card_checkbox_name">Save card</string>
 

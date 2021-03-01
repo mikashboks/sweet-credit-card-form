@@ -265,6 +265,88 @@
 
     <LinearLayout
         style="@style/bt_field_container"
+        android:weightSum="2">
+
+        <ImageView
+            android:id="@+id/bt_card_form_phone_icon"
+            style="@style/bt_card_form_icon"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/bt_edit_text_icon_padding"
+            android:paddingLeft="@dimen/bt_edit_text_icon_padding">
+
+            <TextView
+                android:id="@+id/tv_hint_phone_number"
+                style="@style/bt_LabelStyle.Input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bt_form_hint_phone_number" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bt_til_card_form_phone_number"
+                style="@style/bt_TextInputStyle"
+                android:layout_marginTop="-21dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/bt_card_form_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccPicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:textColor="@color/bt_text_color"
+                        android:textSize="16sp"
+                        app:ccp_autoDetectCountry="true"
+                        app:ccp_showFlag="true"
+                        app:ccp_showNameCode="false" />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="8dp"
+                        android:layout_marginStart="0dp"
+                        android:background="@color/bt_grey_border" />
+
+                    <com.braintreepayments.cardform.view.PhoneNumberEditText
+                        android:id="@+id/bt_card_form_phone_number"
+                        style="@style/bt_card_form_field"
+                        android:layout_width="0dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="0dp"
+                        android:layout_weight="1"
+                        android:lines="1"
+                        android:maxLength="15"
+                        android:digits="0123456789"
+                        android:inputType="phone"
+                        android:textColor="@color/bt_text_color_disabled"
+                        android:autofillHints="@string/bt_form_hint_mobile_number"
+                        android:background="@null"
+                        android:labelFor="@+id/bt_card_form_mobile_number" />
+
+                </LinearLayout>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/bt_field_container"
         android:weightSum="5">
 
         <ImageView
