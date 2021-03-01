@@ -20,7 +20,7 @@
     <!-- Dimen values for text size -->
     <dimen name="bt_text_headline">24sp</dimen>
     <dimen name="bt_text_medium">16sp</dimen>
-    <dimen name="bt_text_small">14sp</dimen>
+    <dimen name="bt_text_small">12sp</dimen>
     <dimen name="bt_text_tiny">12sp</dimen>
     <dimen name="bt_text_size_9sp">9sp</dimen>
     <dimen name="bt_text_size_10sp">10sp</dimen>
