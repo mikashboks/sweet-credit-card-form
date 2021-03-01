@@ -34,6 +34,7 @@ import com.braintreepayments.cardform.utils.CardType;
 import com.braintreepayments.cardform.utils.ViewUtils;
 import com.braintreepayments.cardform.view.CardEditText.OnCardTypeChangedListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.hbb20.CountryCodePicker;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -85,6 +86,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     private ExtendedAddressEditText mExtendedBillingAddress;
     private ImageView mBillingAddressIcon;
 
+    private CountryCodePicker countryCodePicker;
+    private ImageView mCountryPickerIcon;
+    private TextView mtvHintCountry;
+
     private TextView mtvHintCardHolder;
     private TextView mtvHintCardNumber;
     private TextView mtvHintExpirationDate;
@@ -101,6 +106,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     private boolean mPostalCodeRequired;
     private boolean mMobileNumberRequired;
     private boolean mBillingAddressRequired;
+    private boolean mCountryRequired;
     private String mActionLabel;
     private boolean mSaveCardCheckBoxVisible;
     private boolean mSaveCardCheckBoxChecked;
@@ -155,6 +161,9 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mExtendedBillingAddress = findViewById(R.id.bt_card_form_billing_address);
         mBillingAddressIcon = findViewById(R.id.bt_card_form_billing_address_icon);
 
+        countryCodePicker = findViewById(R.id.ccpCountry);
+        mCountryPickerIcon = findViewById(R.id.bt_card_form_country_icon);
+
         ((TextInputLayout) findViewById(R.id.bt_til_card_form_cardholder_name)).setErrorIconDrawable(0);
         ((TextInputLayout) findViewById(R.id.bt_til_card_form_card_number)).setErrorIconDrawable(0);
         ((TextInputLayout) findViewById(R.id.bt_til_card_form_expiration)).setErrorIconDrawable(0);
@@ -172,6 +181,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mtvHintCountryCode = findViewById(R.id.tv_hint_country_code);
         mtvHintMobileNumber = findViewById(R.id.tv_hint_mobile_number);
         mtvHintBillingAddress = findViewById(R.id.tv_hint_billing_address);
+        mtvHintCountry = findViewById(R.id.tv_hint_country);
 
         mVisibleEditTexts = new ArrayList<>();
 
@@ -183,6 +193,16 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         setListeners(mMobileNumber);
 
         mCardNumber.setOnCardTypeChangedListener(this);
+    }
+
+    /**
+     * @param required {@code true} to show and require country fields, {@code false} otherwise. Defaults to {@code false}.
+     * @return {@link CardForm} for method chaining
+     */
+    public CardForm countryRequired(boolean required, String title) {
+        mCountryRequired = required;
+        if (title != null) mtvHintCountry.setText(title);
+        return this;
     }
 
     /**
@@ -337,6 +357,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mPostalCodeIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code);
         mBillingAddressIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code);
         mMobileNumberIcon.setImageResource(isDarkBackground? R.drawable.bt_ic_mobile_number_dark : R.drawable.bt_ic_mobile_number);
+        mCountryPickerIcon.setImageResource(isDarkBackground? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code_dark);
 
         setViewVisibility(mCardholderNameIcon,  cardHolderNameVisible);
         setFieldVisibility(mCardholderName, cardHolderNameVisible);
@@ -359,6 +380,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         setViewVisibility(mBillingAddressIcon, mBillingAddressRequired);
         setFieldVisibility(mExtendedBillingAddress, mBillingAddressRequired);
         setViewVisibility(mtvHintBillingAddress, mBillingAddressRequired);
+
+        setViewVisibility(mCountryPickerIcon, mCountryRequired);
+        setViewVisibility(countryCodePicker, mCountryRequired);
+        setViewVisibility(mtvHintCountry, mCountryRequired);
 
         setViewVisibility(mMobileNumberIcon, mMobileNumberRequired);
         setFieldVisibility(mCountryCode, mMobileNumberRequired);
@@ -763,6 +788,13 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      */
     public String getPostalCode() {
         return mPostalCode.getText().toString();
+    }
+
+    /**
+     * @return the text in the country field
+     */
+    public String getCountry() {
+        return countryCodePicker.getSelectedCountryNameCode();
     }
 
     /**
