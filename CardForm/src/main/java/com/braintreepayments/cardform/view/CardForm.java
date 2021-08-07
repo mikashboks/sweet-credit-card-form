@@ -1,15 +1,8 @@
 package com.braintreepayments.cardform.view;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build.VERSION_CODES;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.IntDef;
-import com.google.android.material.textfield.TextInputEditText;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -26,6 +19,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IntDef;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.braintreepayments.cardform.OnCardFormFieldFocusedListener;
 import com.braintreepayments.cardform.OnCardFormSubmitListener;
 import com.braintreepayments.cardform.OnCardFormValidListener;
@@ -33,6 +30,7 @@ import com.braintreepayments.cardform.R;
 import com.braintreepayments.cardform.utils.CardType;
 import com.braintreepayments.cardform.utils.ViewUtils;
 import com.braintreepayments.cardform.view.CardEditText.OnCardTypeChangedListener;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
@@ -40,8 +38,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class CardForm extends LinearLayout implements OnCardTypeChangedListener, OnFocusChangeListener, OnClickListener,
         OnEditorActionListener, TextWatcher {
@@ -66,7 +62,8 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
      */
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({FIELD_DISABLED, FIELD_OPTIONAL, FIELD_REQUIRED})
-    @interface FieldStatus {}
+    @interface FieldStatus {
+    }
 
     private List<ErrorEditText> mVisibleEditTexts;
 
@@ -206,6 +203,14 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
         mCardNumber.setOnCardTypeChangedListener(this);
     }
 
+    public CountryCodePicker getCountryCodePicker() {
+        return countryCodePicker;
+    }
+
+    public CountryCodePicker getPhoneCountryCodePicker() {
+        return phoneCountryCodePicker;
+    }
+
     /**
      * @param required {@code true} to show and require country fields, {@code false} otherwise. Defaults to {@code false}.
      * @return {@link CardForm} for method chaining
@@ -273,10 +278,9 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
 
     /**
      * @param cardHolderNameStatus can be one of the {@link FieldStatus} options.
-     * - {@link CardForm#FIELD_DISABLED} to hide this field. This is the default option.
-     * - {@link CardForm#FIELD_OPTIONAL} to show this field but make it an optional field.
-     * - {@link CardForm#FIELD_REQUIRED} to show this field and make it required to validate the card form.
-     *
+     *                             - {@link CardForm#FIELD_DISABLED} to hide this field. This is the default option.
+     *                             - {@link CardForm#FIELD_OPTIONAL} to show this field but make it an optional field.
+     *                             - {@link CardForm#FIELD_REQUIRED} to show this field and make it required to validate the card form.
      * @return {@link CardForm} for method chaining
      */
     public CardForm cardholderName(@FieldStatus int cardHolderNameStatus, String title, String desc) {
@@ -374,14 +378,14 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
 
         boolean cardHolderNameVisible = mCardholderNameStatus != FIELD_DISABLED;
         boolean isDarkBackground = ViewUtils.isDarkBackground(activity);
-        mCardholderNameIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_cardholder_name_dark: R.drawable.bt_ic_cardholder_name);
+        mCardholderNameIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_cardholder_name_dark : R.drawable.bt_ic_cardholder_name);
         mCardNumberIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_card_dark : R.drawable.bt_ic_card);
         mCountryBillingIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code);
         mBillingAddressIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_postal_code_dark : R.drawable.bt_ic_postal_code);
-        mMobileNumberIcon.setImageResource(isDarkBackground? R.drawable.bt_ic_mobile_number_dark : R.drawable.bt_ic_mobile_number);
-        mPhoneNumberIcon.setImageResource(isDarkBackground? R.drawable.bt_ic_mobile_number_dark : R.drawable.bt_ic_mobile_number);
+        mMobileNumberIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_mobile_number_dark : R.drawable.bt_ic_mobile_number);
+        mPhoneNumberIcon.setImageResource(isDarkBackground ? R.drawable.bt_ic_mobile_number_dark : R.drawable.bt_ic_mobile_number);
 
-        setViewVisibility(mCardholderNameIcon,  cardHolderNameVisible);
+        setViewVisibility(mCardholderNameIcon, cardHolderNameVisible);
         setFieldVisibility(mCardholderName, cardHolderNameVisible);
         setViewVisibility(mtvHintCardHolder, cardHolderNameVisible);
 
@@ -467,7 +471,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
 
     /**
      * Sets the icon to the left of the mobile number entry field, overriding the default icon.
-     *
+     * <p>
      * If {@code null} is passed, the mobile number's icon will be hidden.
      *
      * @param res The drawable resource for the mobile number icon.
@@ -501,6 +505,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
 
     /**
      * Set the listener to receive a callback when the card form becomes valid or invalid
+     *
      * @param listener to receive the callback
      */
     public void setOnCardFormValidListener(OnCardFormValidListener listener) {
@@ -575,7 +580,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
             valid = valid && mCountryCode.isValid() && mMobileNumber.isValid();
         }
         if (mPhoneNumberRequired) {
-            valid = valid &&  mPhoneNumber.isPhoneNumberValid(phoneCountryCodePicker.getSelectedCountryCodeWithPlus());
+            valid = valid && mPhoneNumber.isPhoneNumberValid(phoneCountryCodePicker.getSelectedCountryCodeWithPlus());
         }
         if (mBillingAddressRequired) {
             valid = valid && mExtendedBillingAddress.isValid();
@@ -753,7 +758,7 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     public void setCountryCodeError(String errorMessage) {
         if (mMobileNumberRequired) {
             mCountryCode.setError(errorMessage);
-            if (!mCardNumber.isFocused() && !mExpiration.isFocused() && !mCvv.isFocused() && !mCardholderName.isFocused() &&  !mPostalCode.isFocused()) {
+            if (!mCardNumber.isFocused() && !mExpiration.isFocused() && !mCvv.isFocused() && !mCardholderName.isFocused() && !mPostalCode.isFocused()) {
                 requestEditTextFocus(mCountryCode);
             }
         }
@@ -931,8 +936,10 @@ public class CardForm extends LinearLayout implements OnCardTypeChangedListener,
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {}
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
 }
